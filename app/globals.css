@@ -135,7 +135,7 @@ body {
 
 .embla__slide__img {
   display: block;
-  height: var(--slide-height);
+  height: auto;
   width: 100%;
   object-fit: cover;
   cursor: pointer;
@@ -296,10 +296,6 @@ body {
 @media (max-width: 680px) {
   .embla__slide {
     flex: 0 0 100%;
-  }
-
-  .embla__slide__img {
-    height: 950px;
   }
 
   .services-description-box {
