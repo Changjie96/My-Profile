@@ -32,7 +32,9 @@ const EmblaCarousel = (props) => {
         <div className="embla__container">
           {slides.map((index) => (
             <div className="embla__slide" key={index}>
-              <Image src={imageByIndex(index)} alt={index} className="embla__slide__img"/>
+              <a href={imageByIndex(index, "link")} alt={imageByIndex(index, "link")}>
+                <Image src={imageByIndex(index, "name")} alt={index} className="embla__slide__img"/>
+              </a>
             </div>
           ))}
         </div>

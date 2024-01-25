@@ -1,59 +1,38 @@
+'use client'
 import Image from 'next/image';
 import stonesImg from '../../public/stones.jpg';
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import wheelImg from '../../public/wheel.jpg'
 import { Roboto, Roboto_Slab } from 'next/font/google';
+import FadingTitle from '../helper/FadingTitle';
+import { useState, useEffect } from 'react';
 
 const roboto = Roboto({subsets: ['latin'], weight: '400'});
 const robotoSlab = Roboto_Slab({subsets: ['latin'] });
 
 function Skills() {
-  const [lettersRef, setLettersRef] = useArrayRef();
-  const triggerRef = useRef(null);
-
-  function useArrayRef() {
-    const lettersRef = useRef([]);
-    lettersRef.current = [];
-    return [lettersRef, (ref) => ref && lettersRef.current.push(ref)];
-  }
-
-  gsap.registerPlugin(ScrollTrigger);
-  const text = "Services";
+  const [swapActive, setSwapActive] = useState(false);
 
   useEffect(() => {
-    const anim = gsap.to(lettersRef.current, {
-      scrollTrigger: {trigger: triggerRef.current},
-      color: "rgba(0,0,0,0.04)",
-      duration: 2.5,
-      stagger: 0.5,
-      ease: "power4.out"
-    });
-    return (() => {
-      anim.kill();
-    })
-  }, [])
+    const id = setInterval(() => {
+      setSwapActive(!swapActive);
+    }, 4000);
+    return () => clearInterval(id);
+  }, [swapActive]);
 
   return (
     <>
-      <div className='absolute services-title-box'>
-        {text.split("").map((letter, index)=> (
-          <span key={index} ref={setLettersRef} className={robotoSlab.className}>
-            {letter}
-          </span>
-        ))}
-      </div>
+      <FadingTitle>Services</FadingTitle>
       <div className='services-description-box'>
         <div className={`flex services-description-title ${robotoSlab.className}`}>
           <h3>MY SERVICES</h3>
           <span>Here Are Some of My Skills</span>
         </div>
         <div className='services-description-content'>
-          <h2>Services</h2>
+          <h2>SERVICES</h2>
           <section className={roboto.className}>
             <div>
               <h3 className="font-black">1 - FRONT END DEVELOPMENT</h3>
-              <ul>
+              <ul className='text-gray-500'>
                 <li>React.js</li>
                 <li>HTML5 / CSS</li>
                 <li>GSAP</li>
@@ -62,7 +41,7 @@ function Skills() {
             </div>
             <div>
               <h3 className="font-black">2 - BACK END DEVELOPMENT</h3>
-              <ul>
+              <ul className='text-gray-500'>
                 <li>Next.js</li>
                 <li>Ruby on Rails</li>
                 <li>Postgres SQL</li>
@@ -71,7 +50,7 @@ function Skills() {
             </div>
             <div>
               <h3 className="font-black">3 - PROGRAMMING LANGUAGES</h3>
-              <ul>
+              <ul className='text-gray-500'>
                 <li>Python</li>
                 <li>Javascript ES6</li>
                 <li>Java</li>
@@ -81,7 +60,7 @@ function Skills() {
             </div>
             <div>
               <h3 className="font-black">4 - OTHERS</h3>
-              <ul>
+              <ul className='text-gray-500'>
                 <li>ChatGPT</li>
                 <li>API</li>
                 <li>Cloudinary</li>
@@ -91,8 +70,11 @@ function Skills() {
           </section>
         </div>
       </div>
-      <div className='services-image-box' >
-        <Image src={stonesImg} alt="casual" objectFit='cover'/>
+      <div className={`services-image-box ${swapActive ? 'hidden' : ''}`}>
+        <Image src={stonesImg} alt="stones" objectFit='cover'/>
+      </div>
+      <div className={`services-image-box ${!swapActive ? 'hidden' : ''}`}>
+        <Image src={wheelImg} alt="wheel" objectFit='cover'/>
       </div>
     </>
   )
